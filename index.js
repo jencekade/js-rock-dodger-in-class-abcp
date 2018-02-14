@@ -66,8 +66,8 @@ function endGame() {
 
   ROCKS.forEach(function(rock) { rock.remove() })
 
-  document.removeEventListener('keydown', moveDodger)
-
+  window.removeEventListener('keydown', moveDodger)
+  //needs to be window.removeEventListener instead of document
   START.innerHTML = 'Play again?'
   START.style.display = 'inline'
 
@@ -88,7 +88,14 @@ function moveDodger(e) {
     moveDodgerRight()
   }
 }
-
+/* preventDefault and stopPropagation to prevent the event from traversing
+up or down the DOM and interfering with other event listeners.
+  if (e.which === 37) {
+    moveDodgerLeft()
+  } else if (e.which === 39) {
+    moveDodgerRight()
+  }
+*/
 function moveDodgerLeft() {
   window.requestAnimationFrame(function() {
     const left = positionToInteger(DODGER.style.left)
@@ -98,6 +105,11 @@ function moveDodgerLeft() {
     }
   })
 }
+/*let numberPostion= positionToInteger($('#dodger').style.left);
+  numberPosition -= 4;
+  let stringPosition = numberPosition.toString + "px";
+  $('dodger').style.left = stringPosition;
+*/
 
 function moveDodgerRight() {
   window.requestAnimationFrame(function() {
@@ -108,6 +120,11 @@ function moveDodgerRight() {
     }
   })
 }
+/*let numberPostion= positionToInteger($('#dodger').style.left);
+  numberPosition += 4;
+  let stringPosition = numberPosition.toString + "px";
+  $('dodger').style.left = stringPosition;
+*/
 
 function positionToInteger(p) {
   return parseInt(p.split('px')[0]) || 0
